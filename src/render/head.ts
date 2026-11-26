@@ -1,11 +1,19 @@
 import type { Site } from '../data/types.ts';
-import { escapeHtml, safeUrl } from './html.ts';
+import { escapeHtml } from './html.ts';
+
+/** canonical 與分享圖必須是完整的 https 網址，頁內錨點或 mailto 都不行 */
+function requireHttps(url: string): string {
+  if (!url.startsWith('https://')) {
+    throw new Error(`Canonical and share URLs must use https: ${url}`);
+  }
+  return url;
+}
 
 export function renderHead(meta: Site['meta']): string {
   const title = escapeHtml(meta.title);
   const description = escapeHtml(meta.description);
-  const url = escapeHtml(safeUrl(meta.url));
-  const image = escapeHtml(safeUrl(meta.ogImage));
+  const url = escapeHtml(requireHttps(meta.url));
+  const image = escapeHtml(requireHttps(meta.ogImage));
   return [
     `<title>${title}</title>`,
     `<meta name="description" content="${description}" />`,

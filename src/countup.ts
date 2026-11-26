@@ -78,4 +78,10 @@ export function initCountUp(win: BrowserWindow, doc: Document): void {
     show(counter, 0);
     observer.observe(counter.figure);
   }
+  // 列印時不一定捲過數字區，先把終值放回去，免得印出 0
+  win.addEventListener('beforeprint', () => {
+    for (const counter of counters) {
+      show(counter, counter.target);
+    }
+  });
 }

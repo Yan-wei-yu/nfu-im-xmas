@@ -93,6 +93,14 @@ describe('initCountUp', () => {
     expect(offset).toBeCloseTo(16.34, 1);
   });
 
+  it('shows final numbers before printing even if they never scrolled into view', () => {
+    window.IntersectionObserver = FakeObserver as unknown as typeof IntersectionObserver;
+    initCountUp(window, document);
+    expect(values()).toEqual(['0%', '0+', '0+']);
+    window.dispatchEvent(new Event('beforeprint'));
+    expect(values()).toEqual(['95%', '50+', '100+']);
+  });
+
   it('ignores observer entries that are not intersecting', () => {
     window.IntersectionObserver = FakeObserver as unknown as typeof IntersectionObserver;
     initCountUp(window, document);

@@ -46,6 +46,18 @@ describe('renderTreeSvg', () => {
     expect(html).not.toContain('A<B');
   });
 
+  it('escapes ornament ids and color classes', () => {
+    const hostile: Highlight = {
+      ...site.highlights[0]!,
+      id: 'ai" onfocus="pwn' as never,
+      color: 'ice" data-pwned="yes' as never,
+    };
+    const html = renderTreeSvg(layoutForHighlights([hostile]), [hostile], 'tree');
+    expect(html).not.toContain('" onfocus="pwn');
+    expect(html).not.toContain('" data-pwned="yes');
+    expect(html).toContain('href="#hl-ai&quot; onfocus=&quot;pwn"');
+  });
+
   it('fails when an ornament has no matching highlight', () => {
     expect(() => renderTreeSvg(layout, site.highlights.slice(1), 'tree')).toThrow(/No highlight for ornament/);
   });

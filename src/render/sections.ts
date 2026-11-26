@@ -49,8 +49,10 @@ export function renderHero(hero: Site['hero'], treeSvg: string): string {
 function renderHighlight(h: Highlight, order: number): string {
   const points = h.points.map((p) => `<li>${escapeHtml(p)}</li>`).join('');
   const links = h.links.map((l) => renderLink(l, { className: 'hl__link', arrow: true })).join('');
+  const id = escapeHtml(h.id);
+  const color = escapeHtml(h.color);
   return (
-    `<details class="hl hl--${h.id} hl--${h.color}" id="hl-${h.id}">` +
+    `<details class="hl hl--${id} hl--${color}" id="hl-${id}">` +
     '<summary class="hl__summary">' +
     `<span class="hl__index">${String(order + 1).padStart(2, '0')}</span>` +
     `<span class="hl__icon">${renderIcon(h.icon)}</span>` +

@@ -57,6 +57,16 @@ describe('renderHighlights', () => {
   });
 });
 
+describe('attribute escaping', () => {
+  it('escapes ids and color classes even though their types are closed unions', () => {
+    const hostile = { ...site.highlights[0]!, id: 'ai" onclick="x' as never, color: 'ice" data-x="1' as never };
+    const html = renderHighlights(site.highlightsSection, [hostile]);
+    expect(html).not.toContain('" onclick="x');
+    expect(html).not.toContain('" data-x="1');
+    expect(html).toContain('id="hl-ai&quot; onclick=&quot;x"');
+  });
+});
+
 describe('renderGifts', () => {
   const html = renderGifts(site.giftsSection, site.gifts);
 
@@ -113,6 +123,11 @@ describe('renderHead', () => {
     expect(html).toContain(`<title>${site.meta.title}</title>`);
     expect(html).toContain('<link rel="canonical" href="https://nfu-im-xmas.vercel.app/" />');
     expect(html).toContain('<meta property="og:image" content="https://nfu-im-xmas.vercel.app/og.png" />');
+  });
+
+  it('requires https for canonical and share urls', () => {
+    expect(() => renderHead({ ...site.meta, url: '#top' })).toThrow(/must use https/);
+    expect(() => renderHead({ ...site.meta, ogImage: 'mailto:a@b.tw' })).toThrow(/must use https/);
   });
 
   it('escapes quotes in meta content', () => {

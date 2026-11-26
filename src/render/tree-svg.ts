@@ -18,9 +18,11 @@ export function layoutForHighlights(highlights: readonly Highlight[]): TreeLayou
 function renderOrnament(placement: OrnamentPlacement, highlight: Highlight): string {
   const { x, y } = placement.node;
   const title = escapeHtml(highlight.title);
+  const id = escapeHtml(highlight.id);
+  const color = escapeHtml(highlight.color);
   const width = highlight.title.length * LABEL_CHAR_WIDTH + LABEL_PADDING;
   return (
-    `<a class="ornament ornament--${highlight.color}" href="#hl-${highlight.id}" aria-label="${title}">` +
+    `<a class="ornament ornament--${color}" href="#hl-${id}" aria-label="${title}">` +
     `<circle class="ornament__hit" cx="${x}" cy="${y}" r="${HIT_RADIUS}"/>` +
     `<circle class="ornament__halo" cx="${x}" cy="${y}" r="20"/>` +
     `<circle class="ornament__ball" cx="${x}" cy="${y}" r="12"/>` +

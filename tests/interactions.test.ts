@@ -24,6 +24,16 @@ describe('openHighlight', () => {
     expect(details('ai').classList.contains('is-lit')).toBe(false);
   });
 
+  it('restarts the glow when the same card is opened again', () => {
+    openHighlight(window, document, '#hl-data');
+    vi.advanceTimersByTime(1000);
+    openHighlight(window, document, '#hl-data');
+    vi.advanceTimersByTime(1000);
+    expect(details('data').classList.contains('is-lit')).toBe(true);
+    vi.advanceTimersByTime(600);
+    expect(details('data').classList.contains('is-lit')).toBe(false);
+  });
+
   it('ignores hashes that are not highlight cards', () => {
     expect(openHighlight(window, document, '#gifts')).toBeNull();
     expect(openHighlight(window, document, '#hl-missing')).toBeNull();

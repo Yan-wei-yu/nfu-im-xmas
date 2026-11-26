@@ -1,5 +1,7 @@
 const HIGHLIGHT_PREFIX = '#hl-';
 const LIT_MS = 1600;
+/** 每張卡片目前的熄燈計時器；重複打開時重新起算，不會被前一次提早熄掉 */
+const litTimers = new WeakMap<Element, number>();
 
 /** 打開網址 hash 指到的特色卡片，並讓它亮一下 */
 export function openHighlight(win: Window, doc: Document, hash: string): HTMLDetailsElement | null {
@@ -13,7 +15,15 @@ export function openHighlight(win: Window, doc: Document, hash: string): HTMLDet
   const card = target as HTMLDetailsElement;
   card.open = true;
   card.classList.add('is-lit');
-  win.setTimeout(() => card.classList.remove('is-lit'), LIT_MS);
+  const previous = litTimers.get(card);
+  if (previous !== undefined) {
+    win.clearTimeout(previous);
+  }
+  const timer = win.setTimeout(() => {
+    card.classList.remove('is-lit');
+    litTimers.delete(card);
+  }, LIT_MS);
+  litTimers.set(card, timer);
   return card;
 }
 
