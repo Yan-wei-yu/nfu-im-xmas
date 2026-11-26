@@ -1,0 +1,35 @@
+:root {
+  color-scheme: dark;
+
+  --color-bg: #050a1f;
+  --color-surface: #0b1430;
+  --color-surface-2: #101c40;
+  --color-grid: #12204a;
+  --color-line: #1d2c5c;
+  --color-text: #e8eef9;
+  --color-text-muted: #9aa8c7;
+  --color-pine: #3ddc84;
+  --color-berry: #ff5a5f;
+  --color-ice: #4cc9f0;
+  --color-gold: #f2c94c;
+  --color-trunk: #5b4636;
+
+  --font-sans: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+
+  --text-hero: clamp(2.5rem, 1.2rem + 5vw, 5rem);
+  --text-section: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-small: 0.875rem;
+
+  --space-section: clamp(4rem, 3rem + 5vw, 8rem);
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --content-width: 72rem;
+  --header-height: 4rem;
+  --radius-card: 18px;
+  --radius-pill: 999px;
+
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}

@@ -1,3 +1,4 @@
+import './styles/index.css';
 import { initCountdown } from './countdown.ts';
 import { initCountUp } from './countup.ts';
 import { initNav } from './nav.ts';
