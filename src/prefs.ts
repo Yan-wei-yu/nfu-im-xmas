@@ -37,6 +37,11 @@ export function browserStore(win: Window): KeyValueStore | null {
   }
 }
 
+/** 回傳 MediaQueryList，呼叫端可以監聽使用者中途改變設定 */
+export function reducedMotionQuery(win: Window): MediaQueryList | null {
+  return typeof win.matchMedia === 'function' ? win.matchMedia('(prefers-reduced-motion: reduce)') : null;
+}
+
 export function prefersReducedMotion(win: Window): boolean {
-  return typeof win.matchMedia === 'function' && win.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return reducedMotionQuery(win)?.matches ?? false;
 }

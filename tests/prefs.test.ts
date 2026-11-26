@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { browserStore, prefersReducedMotion, readToggle, writeToggle, type KeyValueStore } from '../src/prefs.ts';
+import {
+  browserStore,
+  prefersReducedMotion,
+  readToggle,
+  reducedMotionQuery,
+  writeToggle,
+  type KeyValueStore,
+} from '../src/prefs.ts';
 
 function memoryStore(): KeyValueStore & { readonly data: Map<string, string> } {
   const data = new Map<string, string>();
@@ -71,5 +78,17 @@ describe('prefersReducedMotion', () => {
 
   it('assumes motion is fine when matchMedia is missing', () => {
     expect(prefersReducedMotion({} as Window)).toBe(false);
+  });
+});
+
+describe('reducedMotionQuery', () => {
+  it('returns the media query list so callers can listen for changes', () => {
+    const query = { matches: false };
+    const win = { matchMedia: (q: string) => (q === '(prefers-reduced-motion: reduce)' ? query : null) };
+    expect(reducedMotionQuery(win as unknown as Window)).toBe(query);
+  });
+
+  it('returns null when matchMedia is missing', () => {
+    expect(reducedMotionQuery({} as Window)).toBeNull();
   });
 });

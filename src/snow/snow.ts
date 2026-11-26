@@ -1,5 +1,5 @@
-import { SNOW_KEY, browserStore, prefersReducedMotion, readToggle, writeToggle } from '../prefs.ts';
-import { createFlake, flakeCount, flakeX, stepFlake, type Flake, type Random } from './model.ts';
+import { SNOW_KEY, browserStore, readToggle, reducedMotionQuery, writeToggle } from '../prefs.ts';
+import { flakeX, resizeFlakes, stepFlake, type Flake, type Random, type Size } from './model.ts';
 
 export interface SnowDeps {
   readonly win: Window;
@@ -18,6 +18,28 @@ const MAX_STEP_MS = 100;
 const SNOW_RGB = '232, 238, 249';
 const GLYPH_FONT = '"JetBrains Mono", ui-monospace, monospace';
 
+function drawFlakes(ctx: CanvasRenderingContext2D, flakes: readonly Flake[], size: Size): void {
+  ctx.clearRect(0, 0, size.width, size.height);
+  for (const f of flakes) {
+    ctx.fillStyle = `rgba(${SNOW_RGB}, ${f.alpha})`;
+    if (f.glyph) {
+      ctx.font = `${f.size}px ${GLYPH_FONT}`;
+      ctx.fillText(f.glyph, flakeX(f), f.y);
+    } else {
+      ctx.beginPath();
+      ctx.arc(flakeX(f), f.y, f.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+}
+
+function sizeCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, size: Size, pixelRatio: number): void {
+  const dpr = Math.min(pixelRatio || 1, MAX_DPR);
+  canvas.width = Math.round(size.width * dpr);
+  canvas.height = Math.round(size.height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
 export function initSnow({ win, doc, random = Math.random }: SnowDeps): SnowController | null {
   const canvas = doc.querySelector<HTMLCanvasElement>('canvas.snow');
   const toggle = doc.querySelector<HTMLButtonElement>('.snow-toggle');
@@ -27,43 +49,29 @@ export function initSnow({ win, doc, random = Math.random }: SnowDeps): SnowCont
   }
 
   const store = browserStore(win);
-  let enabled = readToggle(store, SNOW_KEY, !prefersReducedMotion(win));
+  const motion = reducedMotionQuery(win);
+  // 減少動態一律優先：就算以前打開過，這次也先不下雪（使用者仍可手動打開）
+  let enabled = !(motion?.matches ?? false) && readToggle(store, SNOW_KEY, true);
   let flakes: Flake[] = [];
-  let width = 0;
-  let height = 0;
+  let size: Size = { width: 0, height: 0 };
   let frame: number | null = null;
   let last = 0;
 
   const resize = (): void => {
-    const dpr = Math.min(win.devicePixelRatio || 1, MAX_DPR);
-    width = win.innerWidth;
-    height = win.innerHeight;
-    canvas.width = Math.round(width * dpr);
-    canvas.height = Math.round(height * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    flakes = Array.from({ length: flakeCount(width, height) }, () => createFlake(random, width, height));
-  };
-
-  const draw = (): void => {
-    ctx.clearRect(0, 0, width, height);
-    for (const f of flakes) {
-      ctx.fillStyle = `rgba(${SNOW_RGB}, ${f.alpha})`;
-      if (f.glyph) {
-        ctx.font = `${f.size}px ${GLYPH_FONT}`;
-        ctx.fillText(f.glyph, flakeX(f), f.y);
-      } else {
-        ctx.beginPath();
-        ctx.arc(flakeX(f), f.y, f.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
+    const next = { width: win.innerWidth, height: win.innerHeight };
+    if (next.width === size.width && next.height === size.height) {
+      return;
     }
+    sizeCanvas(canvas, ctx, next, win.devicePixelRatio);
+    flakes = resizeFlakes(flakes, size, next, random);
+    size = next;
   };
 
   const tick = (time: number): void => {
     const dt = last ? Math.min(time - last, MAX_STEP_MS) : 16;
     last = time;
-    flakes = flakes.map((f) => stepFlake(f, dt, height));
-    draw();
+    flakes = flakes.map((f) => stepFlake(f, dt, size.height));
+    drawFlakes(ctx, flakes, size);
     frame = win.requestAnimationFrame(tick);
   };
 
@@ -89,22 +97,30 @@ export function initSnow({ win, doc, random = Math.random }: SnowDeps): SnowCont
       start();
     } else {
       stop();
-      ctx.clearRect(0, 0, width, height);
+      ctx.clearRect(0, 0, size.width, size.height);
     }
   };
 
-  const setEnabled = (next: boolean): void => {
+  /** remember=false：系統設定造成的關閉不算使用者的選擇，不寫進 localStorage */
+  const setEnabled = (next: boolean, remember = true): void => {
     enabled = next;
-    writeToggle(store, SNOW_KEY, next);
+    if (remember) {
+      writeToggle(store, SNOW_KEY, next);
+    }
     render();
   };
 
   toggle.hidden = false;
   toggle.addEventListener('click', () => setEnabled(!enabled));
+  motion?.addEventListener?.('change', (event) => {
+    if (event.matches) {
+      setEnabled(false, false);
+    }
+  });
   doc.addEventListener('visibilitychange', () => (doc.hidden ? stop() : start()));
   win.addEventListener('resize', resize);
   resize();
   render();
 
-  return { isRunning: () => frame !== null, setEnabled };
+  return { isRunning: () => frame !== null, setEnabled: (next) => setEnabled(next) };
 }

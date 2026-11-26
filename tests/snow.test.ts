@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { initSnow } from '../src/snow/snow.ts';
 
 let frames: FrameRequestCallback[] = [];
+const originalHeight = window.innerHeight;
 
 function fakeContext(): CanvasRenderingContext2D {
   return {
@@ -42,6 +43,7 @@ afterEach(() => {
   vi.restoreAllMocks();
   setHidden(false);
   Reflect.deleteProperty(window, 'matchMedia');
+  Object.defineProperty(window, 'innerHeight', { configurable: true, value: originalHeight });
 });
 
 describe('initSnow', () => {
@@ -91,10 +93,39 @@ describe('initSnow', () => {
     expect(toggle().getAttribute('aria-pressed')).toBe('false');
   });
 
-  it('respects a stored choice over the reduced motion default', () => {
+  it('keeps snow off under reduced motion even if it was turned on before', () => {
     window.matchMedia = vi.fn().mockReturnValue({ matches: true });
     localStorage.setItem('xmas-snow', 'on');
-    expect(initSnow({ win: window, doc: document })!.isRunning()).toBe(true);
+    const snow = initSnow({ win: window, doc: document })!;
+    expect(snow.isRunning()).toBe(false);
+    toggle().click();
+    expect(snow.isRunning()).toBe(true);
+  });
+
+  it('stops when reduced motion is switched on mid-visit without saving it as a choice', () => {
+    let onChange: ((event: { matches: boolean }) => void) | undefined;
+    window.matchMedia = vi.fn().mockReturnValue({
+      matches: false,
+      addEventListener: (_type: string, listener: (event: { matches: boolean }) => void) => {
+        onChange = listener;
+      },
+    });
+    const snow = initSnow({ win: window, doc: document })!;
+    expect(snow.isRunning()).toBe(true);
+    onChange?.({ matches: true });
+    expect(snow.isRunning()).toBe(false);
+    expect(toggle().getAttribute('aria-pressed')).toBe('false');
+    expect(localStorage.getItem('xmas-snow')).toBeNull();
+  });
+
+  it('keeps the same flakes when only the window height changes', () => {
+    const random = vi.fn(() => 0.5);
+    initSnow({ win: window, doc: document, random });
+    const calls = random.mock.calls.length;
+    Object.defineProperty(window, 'innerHeight', { configurable: true, value: 770 });
+    window.dispatchEvent(new Event('resize'));
+    expect(random.mock.calls.length).toBe(calls);
+    expect(canvas().height).toBe(770);
   });
 
   it('draws both dots and 0/1 glyphs', () => {

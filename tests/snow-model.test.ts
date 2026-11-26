@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SNOW, createFlake, flakeCount, flakeX, stepFlake, type Flake } from '../src/snow/model.ts';
+import { SNOW, createFlake, flakeCount, flakeX, resizeFlakes, stepFlake, type Flake } from '../src/snow/model.ts';
 
 /** 可重現的亂數（mulberry32） */
 function seeded(seed: number): () => number {
@@ -58,6 +58,33 @@ describe('stepFlake', () => {
   it('wraps to just above the top after leaving the bottom', () => {
     const next = stepFlake({ ...flake, y: 601 }, 100, 600);
     expect(next.y).toBe(-2);
+  });
+});
+
+describe('resizeFlakes', () => {
+  const none = { width: 0, height: 0 };
+
+  it('fills an empty sky with the right number of flakes', () => {
+    expect(resizeFlakes([], none, { width: 1440, height: 900 }, seeded(3))).toHaveLength(108);
+  });
+
+  it('keeps the same flakes when only the height changes a little (mobile url bar)', () => {
+    const flakes = resizeFlakes([], none, { width: 375, height: 700 }, seeded(4));
+    const rand = seeded(5);
+    const next = resizeFlakes(flakes, { width: 375, height: 700 }, { width: 375, height: 760 }, rand);
+    expect(next).toEqual(flakes);
+  });
+
+  it('scales x to the new width and adds or drops flakes to match the new count', () => {
+    const flakes = resizeFlakes([], none, { width: 800, height: 600 }, seeded(6));
+    const wider = resizeFlakes(flakes, { width: 800, height: 600 }, { width: 1600, height: 1200 }, seeded(7));
+    expect(wider).toHaveLength(160);
+    expect(wider[0]!.x).toBeCloseTo(flakes[0]!.x * 2);
+    expect(wider[0]!.y).toBe(flakes[0]!.y);
+
+    const smaller = resizeFlakes(wider, { width: 1600, height: 1200 }, { width: 800, height: 600 }, seeded(8));
+    expect(smaller).toHaveLength(40);
+    expect(smaller[0]!.x).toBeCloseTo(flakes[0]!.x);
   });
 });
 

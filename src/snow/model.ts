@@ -14,6 +14,11 @@ export interface Flake {
 
 export type Random = () => number;
 
+export interface Size {
+  readonly width: number;
+  readonly height: number;
+}
+
 export const SNOW = { areaPerFlake: 12000, min: 40, max: 160, glyphRatio: 0.25 } as const;
 
 export function flakeCount(width: number, height: number): number {
@@ -35,6 +40,18 @@ export function createFlake(rand: Random, width: number, height: number): Flake 
     alpha: isGlyph ? between(rand, 0.35, 0.7) : between(rand, 0.4, 0.9),
     glyph: isGlyph ? (rand() < 0.5 ? '0' : '1') : null,
   };
+}
+
+/**
+ * 視窗改變大小時沿用既有雪花：x 依寬度等比縮放，數量不夠才補、太多就截掉。
+ * 手機捲動時網址列收合只改高度，雪花不會整片重新產生而閃一下。
+ */
+export function resizeFlakes(flakes: readonly Flake[], from: Size, to: Size, rand: Random): Flake[] {
+  const target = flakeCount(to.width, to.height);
+  const scaleX = from.width > 0 ? to.width / from.width : 1;
+  const kept = flakes.slice(0, target).map((f) => (scaleX === 1 ? f : { ...f, x: f.x * scaleX }));
+  const added = Array.from({ length: target - kept.length }, () => createFlake(rand, to.width, to.height));
+  return [...kept, ...added];
 }
 
 export function stepFlake(flake: Flake, dtMs: number, height: number): Flake {
