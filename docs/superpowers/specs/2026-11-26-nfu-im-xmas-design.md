@@ -193,7 +193,7 @@ nfu-im-xmas/
 ├── vite.config.ts          build 時把資料渲染進 HTML 的外掛
 ├── vercel.json             安全標頭
 ├── public/                 favicon.svg、og.png
-├── scripts/og.html         分享預覽圖的版型
+├── scripts/make-og.mjs     產生分享預覽圖
 ├── src/
 │   ├── main.ts             進入點，逐一啟動各互動模組
 │   ├── data/site.ts        全部內容與型別
@@ -240,7 +240,7 @@ Permissions-Policy: camera=(), microphone=(), geolocation=()
 
 ### 4.5 分享預覽圖
 
-`scripts/og.html` 是 1200×630 的版型（聖誕樹 + 「虎科資管 Merry Christmas」）。用 Playwright 截圖輸出成 `public/og.png` 並 commit。`index.html` 的 `og:image` 寫正式網址的絕對路徑，同時設好 `og:title`、`og:description`。
+`scripts/make-og.mjs` 用 Playwright 以 1200×630 的視窗截取 build 後首頁的主視覺（標題＋聖誕樹），輸出成 `public/og.png` 並 commit。直接截首頁，預覽圖就會跟網站長得一樣。`index.html` 的 `og:image` 寫正式網址的絕對路徑，同時設好 `og:title`、`og:description`。
 
 ## 5. 測試
 
