@@ -109,7 +109,8 @@ code {
 
 /*
  * 首屏以外的區塊先不排版，捲到附近才計算：首次繪製前的 Layout 只需處理導覽和主視覺。
- * contain-intrinsic-size 先預留大概高度（auto 會記住實際高度），避免捲軸跳動。
+ * contain-intrinsic-size 是「內容區」的預留高度（不含 padding），數值為各斷點實測值；
+ * auto 會在繪製過一次後記住實際高度，避免捲軸跳動與錨點落點偏移。
  */
 .highlights,
 .gifts,
@@ -120,12 +121,30 @@ code {
   content-visibility: auto;
 }
 
-.highlights { contain-intrinsic-size: auto 1100px; }
-.gifts { contain-intrinsic-size: auto 900px; }
-.stats { contain-intrinsic-size: auto 700px; }
-.partners { contain-intrinsic-size: auto 320px; }
-.cta { contain-intrinsic-size: auto 520px; }
-.site-footer { contain-intrinsic-size: auto 360px; }
+.highlights { contain-intrinsic-size: auto 1250px; }
+.gifts { contain-intrinsic-size: auto 960px; }
+.stats { contain-intrinsic-size: auto 845px; }
+.partners { contain-intrinsic-size: auto 220px; }
+.cta { contain-intrinsic-size: auto 270px; }
+.site-footer { contain-intrinsic-size: auto 370px; }
+
+@media (min-width: 768px) {
+  .highlights { contain-intrinsic-size: auto 920px; }
+  .gifts { contain-intrinsic-size: auto 660px; }
+  .stats { contain-intrinsic-size: auto 570px; }
+  .partners { contain-intrinsic-size: auto 180px; }
+  .cta { contain-intrinsic-size: auto 240px; }
+  .site-footer { contain-intrinsic-size: auto 220px; }
+}
+
+@media (min-width: 1024px) {
+  .highlights { contain-intrinsic-size: auto 785px; }
+  .gifts { contain-intrinsic-size: auto 640px; }
+  .stats { contain-intrinsic-size: auto 340px; }
+  .partners { contain-intrinsic-size: auto 138px; }
+  .cta { contain-intrinsic-size: auto 270px; }
+  .site-footer { contain-intrinsic-size: auto 226px; }
+}
 
 .section__head {
   display: grid;
