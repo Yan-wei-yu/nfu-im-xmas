@@ -1,36 +1,13 @@
 // @vitest-environment jsdom
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { FONT_STYLESHEET, afterLoad, loadFonts } from '../src/fonts.ts';
-
-describe('afterLoad', () => {
-  afterEach(() => {
-    Reflect.deleteProperty(document, 'readyState');
-  });
-
-  it('runs right away when the page has already loaded', () => {
-    Object.defineProperty(document, 'readyState', { configurable: true, get: () => 'complete' });
-    const fn = vi.fn();
-    afterLoad(window, fn);
-    expect(fn).toHaveBeenCalledTimes(1);
-  });
-
-  it('waits for the load event while the page is still loading', () => {
-    Object.defineProperty(document, 'readyState', { configurable: true, get: () => 'interactive' });
-    const fn = vi.fn();
-    afterLoad(window, fn);
-    expect(fn).not.toHaveBeenCalled();
-    window.dispatchEvent(new Event('load'));
-    window.dispatchEvent(new Event('load'));
-    expect(fn).toHaveBeenCalledTimes(1);
-  });
-});
+import { beforeEach, describe, expect, it } from 'vitest';
+import { FONT_STYLESHEET, loadFonts } from '../src/fonts.ts';
 
 describe('loadFonts', () => {
   beforeEach(() => {
     document.head.innerHTML = '';
   });
 
-  it('adds the Google Fonts stylesheet after the page has rendered', () => {
+  it('adds the Google Fonts stylesheet', () => {
     const link = loadFonts(document);
     expect(link.rel).toBe('stylesheet');
     expect(link.href).toBe(FONT_STYLESHEET);
@@ -43,7 +20,7 @@ describe('loadFonts', () => {
     expect(document.head.querySelectorAll('link[data-fonts]')).toHaveLength(1);
   });
 
-  it('only loads fonts over https', () => {
+  it('only loads fonts over https with swap', () => {
     expect(FONT_STYLESHEET.startsWith('https://fonts.googleapis.com/css2?')).toBe(true);
     expect(FONT_STYLESHEET).toContain('display=swap');
   });

@@ -1,9 +1,10 @@
 import './styles/index.css';
 import { initCountdown } from './countdown.ts';
 import { initCountUp } from './countup.ts';
-import { afterLoad, loadFonts } from './fonts.ts';
+import { loadFonts } from './fonts.ts';
 import { initNav } from './nav.ts';
 import { safeInit } from './safe-init.ts';
+import { afterFirstPaint } from './schedule.ts';
 import { initSnow } from './snow/snow.ts';
 import { initTree } from './tree/tree.ts';
 
@@ -15,10 +16,10 @@ safeInit([
   ['tree', () => initTree(window, document)],
   ['countup', () => initCountUp(window, document)],
   [
-    'after-load',
+    'after-first-paint',
     () =>
-      // 字型、飄雪與聖誕樹動畫都不影響首次繪製，等 load 之後才開始，避免搶主執行緒
-      afterLoad(window, () => {
+      // 字型、飄雪與聖誕樹動畫都不影響首次繪製，等畫面出來之後才開始，避免搶主執行緒
+      afterFirstPaint(window, () => {
         document.documentElement.classList.add('is-loaded');
         safeInit([
           ['fonts', () => void loadFonts(document)],
