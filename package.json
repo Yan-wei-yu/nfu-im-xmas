@@ -1,0 +1,25 @@
+{
+  "name": "nfu-im-xmas",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "e2e": "playwright test",
+    "og": "node scripts/make-og.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@vitest/coverage-v8": "^5.1.2",
+    "jsdom": "^31.0.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.2"
+  }
+}

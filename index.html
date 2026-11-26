@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- @render:head -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;700;900&display=swap"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要內容</a>
+    <canvas class="snow" aria-hidden="true"></canvas>
+    <!-- @render:nav -->
+    <main id="main">
+      <!-- @render:hero -->
+      <!-- @render:highlights -->
+      <!-- @render:gifts -->
+      <!-- @render:stats -->
+      <!-- @render:partners -->
+      <!-- @render:cta -->
+    </main>
+    <!-- @render:footer -->
+    <button class="snow-toggle" type="button" aria-pressed="true" hidden>飄雪</button>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
