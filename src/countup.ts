@@ -3,6 +3,9 @@ import { prefersReducedMotion } from './prefs.ts';
 export const COUNTUP_MS = 1200;
 const VISIBLE_THRESHOLD = 0.4;
 
+/** IntersectionObserver 是全域建構子，不在 Window 介面上 */
+type BrowserWindow = Window & typeof globalThis;
+
 interface Counter {
   readonly figure: Element;
   readonly el: HTMLElement;
@@ -53,7 +56,7 @@ function toCounter(el: HTMLElement): Counter {
 }
 
 /** HTML 裡已經是終值；只有能播動畫時才先歸零，捲到時再跳回終值 */
-export function initCountUp(win: Window, doc: Document): void {
+export function initCountUp(win: BrowserWindow, doc: Document): void {
   if (prefersReducedMotion(win) || typeof win.IntersectionObserver !== 'function') {
     return;
   }
