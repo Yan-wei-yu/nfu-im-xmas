@@ -39,6 +39,9 @@
   font-weight: 900;
   line-height: 1.25;
   text-wrap: balance;
+  /* 中文只在標點處斷行；真的放不下時才任意斷 */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 .cta__lead {

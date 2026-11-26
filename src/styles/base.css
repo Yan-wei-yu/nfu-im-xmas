@@ -107,6 +107,26 @@ code {
   scroll-margin-top: var(--header-height);
 }
 
+/*
+ * 首屏以外的區塊先不排版，捲到附近才計算：首次繪製前的 Layout 只需處理導覽和主視覺。
+ * contain-intrinsic-size 先預留大概高度（auto 會記住實際高度），避免捲軸跳動。
+ */
+.highlights,
+.gifts,
+.stats,
+.partners,
+.cta,
+.site-footer {
+  content-visibility: auto;
+}
+
+.highlights { contain-intrinsic-size: auto 1100px; }
+.gifts { contain-intrinsic-size: auto 900px; }
+.stats { contain-intrinsic-size: auto 700px; }
+.partners { contain-intrinsic-size: auto 320px; }
+.cta { contain-intrinsic-size: auto 520px; }
+.site-footer { contain-intrinsic-size: auto 360px; }
+
 .section__head {
   display: grid;
   gap: 0.75rem;

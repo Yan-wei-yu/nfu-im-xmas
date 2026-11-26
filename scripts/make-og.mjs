@@ -20,7 +20,13 @@ try {
       bypassCSP: true,
     });
     await page.goto(`http://localhost:${PORT}/`);
-    await page.evaluate(() => document.fonts.ready);
+    // 字型 CSS 由 main.ts 執行時才掛上，先等它載入，再等標題用到的字重
+    await page.waitForFunction(() => document.querySelector('link[data-fonts]')?.sheet != null);
+    await page.evaluate(async () => {
+      await document.fonts.load('900 48px "Noto Sans TC"', '虎科資管');
+      await document.fonts.load('700 48px "Noto Sans TC"', 'Merry Christmas');
+      await document.fonts.ready;
+    });
     await page.addStyleTag({ content: '.snow-toggle, .skip-link { display: none !important; }' });
     await page.locator('[data-countdown]').evaluate((el, text) => {
       el.textContent = text;

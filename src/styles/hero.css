@@ -200,6 +200,14 @@
   stroke-width: 2;
 }
 
+/* 有 JS 時，頁面 load 完才開始動畫，不和首次繪製搶主執行緒；沒有 JS 就照常播放 */
+.js:not(.is-loaded) .tree__flow,
+.js:not(.is-loaded) .tree__node,
+.js:not(.is-loaded) .tree__star,
+.js:not(.is-loaded) .ornament__halo {
+  animation-play-state: paused;
+}
+
 @keyframes flow {
   to { stroke-dashoffset: -72; }
 }

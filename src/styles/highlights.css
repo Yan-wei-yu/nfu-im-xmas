@@ -24,6 +24,18 @@
   }
 
   .hl--ai { grid-area: ai; }
+
+  /* AI 卡跨兩列，下半部用大字浮水印補上層次 */
+  .hl--ai::before {
+    content: 'AI';
+    position: absolute;
+    right: 1.5rem;
+    bottom: 0.25rem;
+    color: color-mix(in srgb, var(--hl-color) 10%, transparent);
+    font: 500 clamp(7rem, 4rem + 6vw, 11rem) / 1 var(--font-mono);
+    letter-spacing: -0.04em;
+    pointer-events: none;
+  }
   .hl--data { grid-area: data; }
   .hl--intern { grid-area: intern; }
   .hl--global { grid-area: global; }
