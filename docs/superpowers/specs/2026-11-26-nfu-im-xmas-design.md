@@ -1,7 +1,7 @@
 # 虎科資管聖誕版網站（nfu-im-xmas）設計規格
 
 - 日期：2026-11-26
-- 狀態：設計三段皆已確認，待實作計畫
+- 狀態：已實作，部署到 Vercel（yan-wei-yus-projects/nfu-im-xmas），push 到 main 自動更新
 - 內容來源：虎科資管系官網首頁 https://im.nfu.edu.tw/ 及其特色子頁，2026-11-26 擷取
 
 ## 1. 目標與範圍
