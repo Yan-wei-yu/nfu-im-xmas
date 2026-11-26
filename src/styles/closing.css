@@ -1,0 +1,119 @@
+.partners__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.partner {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  transition:
+    color var(--duration-fast),
+    border-color var(--duration-fast);
+}
+
+.partner:hover {
+  border-color: var(--color-ice);
+  color: var(--color-text);
+}
+
+.cta {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  padding-bottom: var(--space-section);
+  text-align: center;
+}
+
+.cta__title {
+  max-width: 20ch;
+  font-size: clamp(1.75rem, 1rem + 3.5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.cta__lead {
+  color: var(--color-text-muted);
+}
+
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.site-footer {
+  padding: 3rem var(--gutter) 2rem;
+  border-top: 1px solid var(--color-line);
+  background: rgb(5 10 31 / 0.85);
+}
+
+.footer__grid {
+  display: grid;
+  gap: 2rem;
+  width: min(100%, var(--content-width));
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.footer__contact {
+  display: grid;
+  gap: 0.25rem;
+  color: var(--color-text-muted);
+  font-style: normal;
+}
+
+.footer__org {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.footer__heading {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer__link {
+  color: var(--color-text-muted);
+}
+
+.footer__link:hover {
+  color: var(--color-ice);
+}
+
+.footer__disclaimer,
+.footer__top {
+  width: min(100%, var(--content-width));
+  margin: 2rem auto 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+.footer__top {
+  margin-top: 0.75rem;
+}

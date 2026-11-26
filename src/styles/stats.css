@@ -1,0 +1,113 @@
+.stats__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .stats__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .stats__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.stat {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 1.75rem 1.25rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.stat__value {
+  color: var(--color-pine);
+  font-family: var(--font-mono);
+  font-size: clamp(2.5rem, 2rem + 2vw, 3.25rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.stat__value--text {
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.stat__label {
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+.stat--ring {
+  grid-template-areas:
+    'ring'
+    'label';
+}
+
+.stat--ring .ring,
+.stat--ring .stat__value {
+  grid-area: ring;
+}
+
+.stat--ring .stat__value {
+  align-self: center;
+  font-size: 2rem;
+}
+
+.stat--ring .stat__label {
+  grid-area: label;
+}
+
+.ring {
+  width: 8.5rem;
+  height: 8.5rem;
+  transform: rotate(-90deg);
+}
+
+.ring__track,
+.ring__value {
+  fill: none;
+  stroke-width: 10;
+}
+
+.ring__track {
+  stroke: var(--color-line);
+}
+
+.ring__value {
+  stroke: var(--color-pine);
+  stroke-linecap: round;
+}
+
+.venn {
+  width: 9rem;
+  height: auto;
+}
+
+.venn circle {
+  fill-opacity: 0.12;
+  stroke-width: 1.5;
+}
+
+.venn__a { fill: var(--color-ice); stroke: var(--color-ice); }
+.venn__b { fill: var(--color-pine); stroke: var(--color-pine); }
+.venn__c { fill: var(--color-berry); stroke: var(--color-berry); }
+
+.venn text {
+  fill: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+}
