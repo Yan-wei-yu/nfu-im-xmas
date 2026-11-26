@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from 'vitest';
-import { christmasState, countdownText, initCountdown } from '../src/countdown';
+import { christmasState, countdownText, initCountdown } from '../src/countdown.ts';
 
 /** 台灣時間 → Date（台灣固定 UTC+8，沒有日光節約） */
 const taipei = (iso: string): Date => new Date(`${iso}+08:00`);

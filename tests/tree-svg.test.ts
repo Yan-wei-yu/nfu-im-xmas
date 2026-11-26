@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { site } from '../src/data/site';
-import type { Highlight, IconName } from '../src/data/types';
-import { renderIcon } from '../src/render/icons';
-import { layoutForHighlights, renderTreeSvg } from '../src/render/tree-svg';
+import { site } from '../src/data/site.ts';
+import type { Highlight, IconName } from '../src/data/types.ts';
+import { renderIcon } from '../src/render/icons.ts';
+import { layoutForHighlights, renderTreeSvg } from '../src/render/tree-svg.ts';
 
 const count = (html: string, pattern: RegExp): number => html.match(pattern)?.length ?? 0;
 

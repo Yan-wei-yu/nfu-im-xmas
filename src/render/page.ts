@@ -1,5 +1,5 @@
-import type { Site } from '../data/types';
-import { renderHead } from './head';
+import type { Site } from '../data/types.ts';
+import { renderHead } from './head.ts';
 import {
   renderCta,
   renderFooter,
@@ -9,8 +9,8 @@ import {
   renderNav,
   renderPartners,
   renderStats,
-} from './sections';
-import { layoutForHighlights, renderTreeSvg } from './tree-svg';
+} from './sections.ts';
+import { layoutForHighlights, renderTreeSvg } from './tree-svg.ts';
 
 export type RenderedSections = Readonly<Record<string, string>>;
 

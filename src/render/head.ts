@@ -1,5 +1,5 @@
-import type { Site } from '../data/types';
-import { escapeHtml, safeUrl } from './html';
+import type { Site } from '../data/types.ts';
+import { escapeHtml, safeUrl } from './html.ts';
 
 export function renderHead(meta: Site['meta']): string {
   const title = escapeHtml(meta.title);

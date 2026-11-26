@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SNOW, createFlake, flakeCount, flakeX, stepFlake, type Flake } from '../src/snow/model';
+import { SNOW, createFlake, flakeCount, flakeX, stepFlake, type Flake } from '../src/snow/model.ts';
 
 /** 可重現的亂數（mulberry32） */
 function seeded(seed: number): () => number {

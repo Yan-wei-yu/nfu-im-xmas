@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { escapeHtml, renderLink, safeUrl } from '../src/render/html';
+import { escapeHtml, renderLink, safeUrl } from '../src/render/html.ts';
 
 describe('escapeHtml', () => {
   it('escapes the five html special characters', () => {

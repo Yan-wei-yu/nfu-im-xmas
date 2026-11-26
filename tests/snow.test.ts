@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { initSnow } from '../src/snow/snow';
+import { initSnow } from '../src/snow/snow.ts';
 
 let frames: FrameRequestCallback[] = [];
 

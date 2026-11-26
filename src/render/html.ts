@@ -1,4 +1,4 @@
-import type { Link } from '../data/types';
+import type { Link } from '../data/types.ts';
 
 const ESCAPES: Readonly<Record<string, string>> = {
   '&': '&amp;',

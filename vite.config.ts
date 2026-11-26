@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
-import { site } from './src/data/site';
-import { fillPlaceholders, renderPage } from './src/render/page';
+import { site } from './src/data/site.ts';
+import { fillPlaceholders, renderPage } from './src/render/page.ts';
 
 function renderSite(): Plugin {
   return {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { site } from '../src/data/site';
-import type { Link } from '../src/data/types';
+import { site } from '../src/data/site.ts';
+import type { Link } from '../src/data/types.ts';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 

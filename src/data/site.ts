@@ -1,4 +1,4 @@
-import type { Site } from './types';
+import type { Site } from './types.ts';
 
 const OFFICIAL_ORIGIN = 'https://im.nfu.edu.tw';
 const official = (path: string): string => `${OFFICIAL_ORIGIN}${path}`;

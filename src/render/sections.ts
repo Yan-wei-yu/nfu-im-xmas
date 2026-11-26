@@ -1,6 +1,6 @@
-import type { Gift, Highlight, Site, Stat } from '../data/types';
-import { escapeHtml, renderLink } from './html';
-import { renderIcon } from './icons';
+import type { Gift, Highlight, Site, Stat } from '../data/types.ts';
+import { escapeHtml, renderLink } from './html.ts';
+import { renderIcon } from './icons.ts';
 
 const RING_RADIUS = 52;
 const RING_CIRCUMFERENCE = Math.round(2 * Math.PI * RING_RADIUS * 100) / 100;

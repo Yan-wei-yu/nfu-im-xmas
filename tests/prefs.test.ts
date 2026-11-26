@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { browserStore, prefersReducedMotion, readToggle, writeToggle, type KeyValueStore } from '../src/prefs';
+import { browserStore, prefersReducedMotion, readToggle, writeToggle, type KeyValueStore } from '../src/prefs.ts';
 
 function memoryStore(): KeyValueStore & { readonly data: Map<string, string> } {
   const data = new Map<string, string>();

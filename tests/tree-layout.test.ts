@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { TREE, computeTreeLayout, starPoints } from '../src/tree/layout';
+import { TREE, computeTreeLayout, starPoints } from '../src/tree/layout.ts';
 
 const ORNAMENTS = [
   { key: 'ai', layer: 2, index: 0 },

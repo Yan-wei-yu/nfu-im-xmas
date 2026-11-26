@@ -1,5 +1,5 @@
-import { SNOW_KEY, browserStore, prefersReducedMotion, readToggle, writeToggle } from '../prefs';
-import { createFlake, flakeCount, flakeX, stepFlake, type Flake, type Random } from './model';
+import { SNOW_KEY, browserStore, prefersReducedMotion, readToggle, writeToggle } from '../prefs.ts';
+import { createFlake, flakeCount, flakeX, stepFlake, type Flake, type Random } from './model.ts';
 
 export interface SnowDeps {
   readonly win: Window;

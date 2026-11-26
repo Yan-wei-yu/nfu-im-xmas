@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { site } from '../src/data/site';
-import { fillPlaceholders, renderPage } from '../src/render/page';
+import { site } from '../src/data/site.ts';
+import { fillPlaceholders, renderPage } from '../src/render/page.ts';
 
 describe('renderPage', () => {
   it('renders every placeholder used by index.html', () => {

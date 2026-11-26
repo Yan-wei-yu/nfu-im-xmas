@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { site } from '../src/data/site';
-import { renderHead } from '../src/render/head';
+import { site } from '../src/data/site.ts';
+import { renderHead } from '../src/render/head.ts';
 import {
   renderCta,
   renderFooter,
@@ -10,7 +10,7 @@ import {
   renderNav,
   renderPartners,
   renderStats,
-} from '../src/render/sections';
+} from '../src/render/sections.ts';
 
 const count = (html: string, pattern: RegExp): number => html.match(pattern)?.length ?? 0;
 

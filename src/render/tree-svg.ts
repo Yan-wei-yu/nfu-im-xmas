@@ -1,6 +1,6 @@
-import type { Highlight } from '../data/types';
-import { computeTreeLayout, type OrnamentPlacement, type TreeLayout } from '../tree/layout';
-import { escapeHtml } from './html';
+import type { Highlight } from '../data/types.ts';
+import { computeTreeLayout, type OrnamentPlacement, type TreeLayout } from '../tree/layout.ts';
+import { escapeHtml } from './html.ts';
 
 /** 標籤寬度用字數估算：每字 14px，左右各留 8px */
 const LABEL_CHAR_WIDTH = 14;
