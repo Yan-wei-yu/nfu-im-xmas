@@ -84,6 +84,16 @@ describe('initNav', () => {
     expect(document.activeElement).toBe(toggle());
   });
 
+  it('closes when the user clicks outside the header', () => {
+    document.body.insertAdjacentHTML('beforeend', '<main><p id="outside">內容</p></main>');
+    initNav(document);
+    toggle().click();
+    document.getElementById('outside')!.click();
+    expect(header().classList.contains('is-open')).toBe(false);
+    toggle().click();
+    expect(header().classList.contains('is-open')).toBe(true);
+  });
+
   it('does nothing when the nav is missing', () => {
     document.body.innerHTML = '';
     expect(() => initNav(document)).not.toThrow();

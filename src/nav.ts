@@ -20,6 +20,11 @@ export function initNav(doc: Document): void {
       setOpen(false);
     }
   });
+  doc.addEventListener('click', (event) => {
+    if (isOpen() && event.target instanceof Node && !header.contains(event.target)) {
+      setOpen(false);
+    }
+  });
   doc.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && isOpen()) {
       setOpen(false);

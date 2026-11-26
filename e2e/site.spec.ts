@@ -60,6 +60,7 @@ test('keyboard users can open a card from the tree', async ({ page }) => {
 test('snow toggle turns off and is remembered', async ({ page }) => {
   await page.goto('/');
   const toggle = page.locator('.snow-toggle');
+  await expect(toggle).toHaveAccessibleName('飄雪');
   await expect(toggle).toHaveAttribute('aria-pressed', 'true');
   await toggle.click();
   await expect(toggle).toHaveAttribute('aria-pressed', 'false');

@@ -193,11 +193,13 @@
   transform: none;
 }
 
+/* 光暈動畫會蓋過 opacity，聚焦時先停掉動畫，焦點框才看得清楚 */
 .ornament:focus-visible .ornament__halo {
+  animation: none;
   opacity: 1;
-  fill-opacity: 0.25;
+  fill-opacity: 0.2;
   stroke: var(--color-ice);
-  stroke-width: 2;
+  stroke-width: 3;
 }
 
 /* 有 JS 時，頁面 load 完才開始動畫，不和首次繪製搶主執行緒；沒有 JS 就照常播放 */
