@@ -6,6 +6,8 @@ import { escapeHtml } from './html.ts';
 const LABEL_CHAR_WIDTH = 14;
 const LABEL_PADDING = 16;
 const FLOW_GROUPS = 5;
+/** 光暈動畫最大放大到 20 × 1.25 = 25；點擊區固定比它大，外框才不會跟著動畫變 */
+const HIT_RADIUS = 26;
 
 export function layoutForHighlights(highlights: readonly Highlight[]): TreeLayout {
   return computeTreeLayout(
@@ -19,6 +21,7 @@ function renderOrnament(placement: OrnamentPlacement, highlight: Highlight): str
   const width = highlight.title.length * LABEL_CHAR_WIDTH + LABEL_PADDING;
   return (
     `<a class="ornament ornament--${highlight.color}" href="#hl-${highlight.id}" aria-label="${title}">` +
+    `<circle class="ornament__hit" cx="${x}" cy="${y}" r="${HIT_RADIUS}"/>` +
     `<circle class="ornament__halo" cx="${x}" cy="${y}" r="20"/>` +
     `<circle class="ornament__ball" cx="${x}" cy="${y}" r="12"/>` +
     `<g class="ornament__label" aria-hidden="true">` +

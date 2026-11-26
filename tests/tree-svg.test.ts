@@ -29,6 +29,10 @@ describe('renderTreeSvg', () => {
     expect(count(svg, /<a class="ornament/g)).toBe(6);
   });
 
+  it('gives each ornament a fixed hit area larger than its animated halo', () => {
+    expect(count(svg, /<circle class="ornament__hit" cx="[\d.]+" cy="[\d.]+" r="26"\/>/g)).toBe(6);
+  });
+
   it('draws 30 edges, 30 data flows and 15 plain nodes', () => {
     expect(count(svg, /<line x1=/g)).toBe(30);
     expect(count(svg, /class="tree__flow /g)).toBe(30);

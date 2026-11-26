@@ -141,6 +141,10 @@
 .ornament--pine { --ornament-color: var(--color-pine); }
 .ornament--berry { --ornament-color: var(--color-berry); }
 
+.ornament__hit {
+  fill: transparent;
+}
+
 .ornament__halo {
   fill: var(--ornament-color);
   opacity: 0.18;
